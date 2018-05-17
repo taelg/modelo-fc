@@ -1,6 +1,6 @@
 <?php
 /*
-* É recomendado que a configuração da URL base, caso necessário, seja nesse aquivo.
+* É recomendado que a configuração da URL base, caso necessário, seja nesse arquivo.
 * Veja o exemplo:
 */
 
