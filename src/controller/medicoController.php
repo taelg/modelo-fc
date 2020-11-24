@@ -18,11 +18,11 @@ class medicoController {
             case 'add' :
                 $this->insert();
                 break;
-            case 'update':
+            case 'editar':
                 $this->update();
                 break;
-            case 'delete' :
-                $this->delete();
+            case 'horarios' :
+                $this->horarios();
                 break;
             default:
                 $this->list();
@@ -183,6 +183,10 @@ class medicoController {
         $medicos = $this->objsm->selectRecord(0);
         $result = $this->objsm->selectHorarios();
         include "view/listagem.php";
+    }
+    
+    public function horarios() {
+        
     }
 
 }
