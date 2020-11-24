@@ -37,7 +37,7 @@ class medicoController {
     // check validation
     public function checkValidation($medicotb) {
         $noerror = true;
-        
+
         // Validate email
         if (empty($medicotb->email)) {
             $medicotb->email_msg = "Field is empty.";
@@ -48,42 +48,38 @@ class medicoController {
         } else {
             $medicotb->category_msg = "";
         }
-        
+
         // Validate name
         if (empty($medicotb->nome)) {
             $medicotb->nome_msg = "Nome vazio.";
             $noerror = false;
         } elseif (preg_match("/([%\$#\*@!¨&(\)]+)/", $medicotb->nome)) {
-            $medicotb->nome_msg = "Nome não pode conter símbolos.";                                                        
+            $medicotb->nome_msg = "Nome não pode conter símbolos.";
             $noerror = false;
         } elseif (preg_match("/([0-9]+)/", $medicotb->nome)) {
-            $medicotb->nome_msg = "Nome não pode conter números.";                                                        
+            $medicotb->nome_msg = "Nome não pode conter números.";
             $noerror = false;
-        } elseif (strlen($medicotb->nome) < 3) {
-            $medicotb->nome_msg = "Nome deve conter ao menos 2 dígitos.";                                                        
+        } elseif (strlen($medicotb->nome) < 5) {
+            $medicotb->nome_msg = "Nome deve conter ao menos 6 dígitos.";
             $noerror = false;
         } elseif (strlen($medicotb->nome) > 40) {
-            $medicotb->nome_msg = "Nome deve conter no máximo 40 dígitos.";                                                        
+            $medicotb->nome_msg = "Nome deve conter no máximo 40 dígitos.";
             $noerror = false;
         } else {
             $medicotb->nome_msg = "";
         }
-        
-         //Validate password
-//        if (empty($medicotb->senha)) {
-//            $medicotb->senha_msg = "Field is empty.";
-//            $noerror = false;
-//        } elseif (!filter_var($medicotb->senha, FILTER_VALIDATE_REGEXP, array("options" => array("regexp" => "^[a-zA-Z0-9_\]\[?\/<~#`!@$%^&*()+=}|:\";\',>{ -]{4,20}$")))) {
-//            $medicotb->senha_msg = "Invalid entry.";
-//            $noerror = false;
-//        } else {
-//            $medicotb->senha_msg = "";
-//        }
-        
+
+        //Validate senha
+        if (strlen($medicotb->senha) < 5) {
+            $medicotb->senha_msg = "Senha deve conter ao menos 6 dígitos.";
+            $noerror = false;
+        } else {
+            $medicotb->senha_msg = "";
+        }
+
         return $noerror;
     }
 
-    
     public function insert() {
         try {
             $medicotb = new medico();
@@ -119,15 +115,15 @@ class medicoController {
 
             if (isset($_POST['updatebtn'])) {
                 $medicotb = unserialize($_SESSION['medicotbl0']);
-                
+
                 $senha_antiga = trim($_POST['senha_antiga']);
                 //CHECK IF OLD PASSWORD MATCHES.
-                
+
                 $medicotb->id = trim($_POST['id']);
                 $medicotb->nome = trim($_POST['nome']);
                 $medicotb->email = "getOldEmail@gmail.com";
                 $medicotb->senha = trim($_POST['senha_nova']);
-                
+
                 // check validation  
                 $chk = $this->checkValidation($medicotb);
                 if ($chk) {
@@ -184,7 +180,7 @@ class medicoController {
         $dates = $this->objsm->selectSchedule();
         include "view/listagem.php";
     }
-    
+
     public function editSchedule() {
         try {
             if (isset($_GET['id'])) {
