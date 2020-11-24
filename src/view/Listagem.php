@@ -51,8 +51,8 @@
                                     echo "<tr>";
                                         echo "<td>" . $row['nome'] . "</td>";     
                                         echo "<td>";
-                                        echo "<a href='index.php?act=update&id=". $row['id'] ."' title='' data-toggle='tooltip'><i class='fa fa-edit'>Editar Cadastro</i></a>";
-                                        echo "<a href='index.php?act=horarios&id=". $row['id'] ."' title='' data-toggle='tooltip'><i class='fa fa-trash'>Configurar Horários</i></a>";
+                                        echo "<a href='index.php?act=editarMedico&id=". $row['id'] ."' title='' data-toggle='tooltip'><i class='fa fa-edit'>Editar Cadastro</i></a>";
+                                        echo "<a href='index.php?act=editarHorarios&id=". $row['id'] ."' title='' data-toggle='tooltip'><i class='fa fa-trash'>Configurar Horários</i></a>";
                                         echo "</td>";
                                     echo "</tr>";
                                     

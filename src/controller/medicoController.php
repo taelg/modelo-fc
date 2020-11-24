@@ -11,24 +11,6 @@ class medicoController {
         $this->objsm = new medicoModel();
     }
 
-    // mvc handler request
-    public function mvcHandler() {
-        $act = isset($_GET['act']) ? $_GET['act'] : NULL;
-        switch ($act) {
-            case 'add' :
-                $this->insert();
-                break;
-            case 'editar':
-                $this->update();
-                break;
-            case 'schedule' :
-                $this->editSchedule();
-                break;
-            default:
-                $this->listDoctors();
-        }
-    }
-
     // page redirection
     public function pageRedirect($url) {
         header('Location:' . $url);
@@ -179,6 +161,10 @@ class medicoController {
         $medicos = $this->objsm->selectRecord(0);
         $dates = $this->objsm->selectSchedule();
         include "view/listagem.php";
+    }
+
+    public function scheduleDate() {
+        
     }
 
     public function editSchedule() {

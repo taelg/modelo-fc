@@ -13,24 +13,6 @@ class horarioController {
         $this->objsm = new horarioModel();
     }
 
-    // mvc handler request
-    public function mvcHandler() {
-        $act = isset($_GET['act']) ? $_GET['act'] : NULL;
-        switch ($act) {
-            case 'add' :
-                $this->insert();
-                break;
-            case 'update':
-                $this->update();
-                break;
-            case 'delete' :
-                $this->delete();
-                break;
-            default:
-                $this->list();
-        }
-    }
-
     // page redirection
     public function pageRedirect($url) {
         header('Location:' . $url);
@@ -114,7 +96,7 @@ class horarioController {
                 $horariotb->id_medico = $row["id_medico"];
                 $horariotb->data_horario = $row["data_horario"];
                 $_SESSION['horariotbl0'] = serialize($horariotb);
-                $this->pageRedirect('view/update.php');
+                $this->pageRedirect('view/editarHorarios.php');
             } else {
                 echo "Invalid operation.";
             }

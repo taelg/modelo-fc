@@ -6,6 +6,32 @@
 
 
     session_unset();  
-    require_once  'controller/medicoController.php';          
-    $controller = new medicoController();     
-    $controller->mvcHandler();  
+    require_once  'controller/medicoController.php';
+    require_once  'controller/horarioController.php';
+    
+    $medicoController = new medicoController();
+    $horarioController = new horarioController();
+    
+        $act = isset($_GET['act']) ? $_GET['act'] : NULL;
+        switch ($act) {
+            case 'registrarMedico' :
+                $medicoController->insert();
+                break;
+            case 'registrarHorario' :
+                $horarioController->insert();
+                break;
+            case 'editarMedico':
+                $medicoController->update();
+                break;
+            case 'editarHorarios' :
+                $horarioController->update();
+                break;
+            case 'marcarHorario' :
+                $horarioController->scheduleDate();
+                break;
+            default:
+                $medicoController->listDoctors();
+        }
+    
+    
+    
