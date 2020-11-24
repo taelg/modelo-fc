@@ -37,32 +37,67 @@
                         <a href="view/cadastroMedico.php" class="btn btn-success pull-right">Registrar novo médico</a>
                     </div>
                     <?php
-                        if($result->num_rows > 0){
+                        if($medicos->num_rows > 0){
+                            
                             echo "<table class='table table-bordered table-striped'>";
                                 echo "<thead>";
-                                    echo "<tr>";
-                                        echo "<th>#</th>";                                        
-                                        echo "<th>Nome</th>";
-                                        echo "<th>Email</th>";
-                                        echo "<th>Action</th>";
+                                    echo "<tr>";                                    
+                                        echo "<th>Médico</th>";
+                                        echo "<th>Açãos</th>";
                                     echo "</tr>";
                                 echo "</thead>";
                                 echo "<tbody>";
-                                while($row = mysqli_fetch_array($result)){
+                                while($row = mysqli_fetch_array($medicos)){
                                     echo "<tr>";
-                                        echo "<td>" . $row['id'] . "</td>";     
-                                        echo "<td>" . $row['nome'] . "</td>";                                   
-                                        echo "<td>" . $row['email'] . "</td>";
+                                        echo "<td>" . $row['nome'] . "</td>";     
                                         echo "<td>";
                                         echo "<a href='index.php?act=update&id=". $row['id'] ."' title='Atualizar' data-toggle='tooltip'><i class='fa fa-edit'>atualizar</i></a>";
                                         echo "<a href='index.php?act=delete&id=". $row['id'] ."' title='Excluir' data-toggle='tooltip'><i class='fa fa-trash'>excluir</i></a>";
                                         echo "</td>";
                                     echo "</tr>";
+                                    
+                                    echo "<table class='table table-bordered table-striped'>";
+                                        echo "<thead>";
+                                            echo "<tr>";                     
+                                                echo "<th>Data</th>";
+                                                echo "<th>Disponível</th>";
+                                            echo "</tr>";
+                                        echo "</thead>";
+                                        echo "<tbody>";
+                                        
+                                        foreach($result as $row2) {
+                                            if($row2['medid'] === $row['id']) {
+                                                echo "<tr>";
+                                                    echo "<td>" . $row2['data'] . "</td>";                                   
+                                                    echo "<td>" .($row2['agendado']===0?"Sim":"Não")  . "</td>";
+                                                echo "</tr>";
+                                            }
+                                        }                                        
+                                        echo "</tbody>";
+                                    echo "</table>";
+                                    
+                                    
                                 }
                                 echo "</tbody>";
                             echo "</table>";
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+
+                            
+                            
+                            
+                            
+                            
+                            
                             // Free result set
                             mysqli_free_result($result);
+                            mysqli_free_result($medicos);
                         } else{
                             echo "<p class='lead'><em>No records were found.</em></p>";
                         }

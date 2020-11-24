@@ -180,13 +180,9 @@ class medicoController {
     }
 
     public function list() {
-        $result = $this->objsm->selectRecord(0);
-        include "view/list.php";
-    }
-    
-    public function checkPassword() {
-        $result = $this->objsm->selectRecord($id);
-        include "view/list.php";
+        $medicos = $this->objsm->selectRecord(0);
+        $result = $this->objsm->selectHorarios();
+        include "view/listagem.php";
     }
 
 }

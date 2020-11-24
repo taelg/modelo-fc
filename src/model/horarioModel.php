@@ -15,7 +15,7 @@ class horarioModel {
     public function close_db() {
         $this->condb->close();
     }
-    
+
     public function insertRecord($obj) {
         try {
             $this->open_db();

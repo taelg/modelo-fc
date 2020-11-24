@@ -86,5 +86,20 @@ class medicoModel {
             throw $e;
         }
     }
+    
+    public function selectHorarios() {
+        try {
+            $this->open_db();
+            $query = $this->condb->prepare("SELECT medico.id AS medid, medico.nome AS medico, horario.data_horario AS data, horario.horario_agendado AS agendado FROM medico INNER JOIN horario ON medico.id = horario.id_medico ORDER BY medico.id");
+            $query->execute();
+            $res = $query->get_result();
+            $query->close();
+            $this->close_db();
+            return $res;
+        } catch (Exception $e) {
+            $this->close_db();
+            throw $e;
+        }
+    }
 
 }
