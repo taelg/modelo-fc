@@ -1,9 +1,9 @@
 <?php
 
-require_once 'model/medico.php';
+require_once 'model/horario.php';
 require_once 'model/config-banco-dados.php';
 
-class medicoModel {
+class horarioModel {
 
     public function open_db() {
         $this->condb = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
@@ -15,13 +15,12 @@ class medicoModel {
     public function close_db() {
         $this->condb->close();
     }
-
+    
     public function insertRecord($obj) {
         try {
             $this->open_db();
-            $query = $this->condb->prepare("INSERT INTO medico (email, nome, senha) VALUES (?, ?, ?)");
-            $obj->senha = md5($obj->senha);
-            $query->bind_param("sss", $obj->email, $obj->nome, $obj->senha);
+            $query = $this->condb->prepare("INSERT INTO horario (id_medico, data_horario, horario_agendado) VALUES (?, ?, ?)");
+            $query->bind_param("iss", $obj->id_medico, $obj->data_horario, $obj->horario_agendado);
             $query->execute();
             $res = $query->get_result();
             $last_id = $this->condb->insert_id;
@@ -37,9 +36,9 @@ class medicoModel {
     public function updateRecord($obj) {
         try {
             $this->open_db();
-            $query = $this->condb->prepare("UPDATE medico SET email=?, nome=?, senha=? WHERE id=?");
+            $query = $this->condb->prepare("UPDATE horario SET id_medico=?, data_horario=?, horario_agendado=? WHERE id=?");
             $obj->senha = md5($obj->senha);
-            $query->bind_param("sssi", $obj->email, $obj->nome, $obj->senha, $obj->id);
+            $query->bind_param("issi", $obj->id_medico, $obj->data_horario, $obj->horario_agendado, $obj->id);
             $query->execute();
             $res = $query->get_result();
             $query->close();
@@ -54,7 +53,7 @@ class medicoModel {
     public function deleteRecord($id) {
         try {
             $this->open_db();
-            $query = $this->condb->prepare("DELETE FROM medico WHERE id=?");
+            $query = $this->condb->prepare("DELETE FROM horario WHERE id=?");
             $query->bind_param("i", $id);
             $query->execute();
             $res = $query->get_result();
@@ -71,10 +70,10 @@ class medicoModel {
         try {
             $this->open_db();
             if ($id > 0) {
-                $query = $this->condb->prepare("SELECT * FROM medico WHERE id=?");
+                $query = $this->condb->prepare("SELECT * FROM horario WHERE id=?");
                 $query->bind_param("i", $id);
             } else {
-                $query = $this->condb->prepare("SELECT * FROM medico");
+                $query = $this->condb->prepare("SELECT * FROM horario");
             }
             $query->execute();
             $res = $query->get_result();
