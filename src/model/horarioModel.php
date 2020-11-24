@@ -19,8 +19,8 @@ class horarioModel {
     public function insertRecord($obj) {
         try {
             $this->open_db();
-            $query = $this->condb->prepare("INSERT INTO horario (id_medico, data_horario, horario_agendado) VALUES (?, ?, ?)");
-            $query->bind_param("iss", $obj->id_medico, $obj->data_horario, $obj->horario_agendado);
+            $query = $this->condb->prepare("INSERT INTO horario (id_medico, data_horario) VALUES (?, ?)");
+            $query->bind_param("iss", $obj->id_medico, $obj->data_horario);
             $query->execute();
             $res = $query->get_result();
             $last_id = $this->condb->insert_id;
@@ -37,7 +37,6 @@ class horarioModel {
         try {
             $this->open_db();
             $query = $this->condb->prepare("UPDATE horario SET id_medico=?, data_horario=?, horario_agendado=? WHERE id=?");
-            $obj->senha = md5($obj->senha);
             $query->bind_param("issi", $obj->id_medico, $obj->data_horario, $obj->horario_agendado, $obj->id);
             $query->execute();
             $res = $query->get_result();

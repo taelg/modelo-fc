@@ -34,7 +34,7 @@
                     <div class="page-header clearfix">
                         <a href="index.php" class="btn btn-success pull-left">Home</a>
                         <h2 class="pull-left">Listagem de Médicos</h2>
-                        <a href="view/insert.php" class="btn btn-success pull-right">Registrar novo médico</a>
+                        <a href="view/cadastroMedico.php" class="btn btn-success pull-right">Registrar novo médico</a>
                     </div>
                     <?php
                         if($result->num_rows > 0){

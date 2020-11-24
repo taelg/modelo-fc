@@ -22,25 +22,24 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        <h2>Registrar Médico</h2>
+                        <h2>Cadastro de Médico</h2>
                     </div>
-                    <p>Preencha os campos e envie para adicionar um novo médico.</p>
                     <form action="../index.php?act=add" method="post" >
                         
                         <div class="form-group <?php echo (!empty($medicotb->nome_msg)) ? 'has-error' : ''; ?>">
-                            <label>Nome do médico</label>
+                            <label>Nome</label>
                             <input name="nome" class="form-control" value="<?php echo $medicotb->nome; ?>">
                             <span class="help-block"><?php echo $medicotb->nome_msg;?></span>
                         </div>
                         
                         <div class="form-group <?php echo (!empty($medicotb->email_msg)) ? 'has-error' : ''; ?>">
-                            <label>Email do médico</label>
+                            <label>Email</label>
                             <input type="text" name="email" class="form-control" value="<?php echo $medicotb->email; ?>">
                             <span class="help-block"><?php echo $medicotb->email_msg;?></span>
                         </div>
                         
                         <div class="form-group <?php echo (!empty($medicotb->senha_msg)) ? 'has-error' : ''; ?>">
-                            <label>Senha do médico</label>
+                            <label>Senha</label>
                             <input type="password" name="senha" class="form-control" value="<?php echo $medicotb->senha; ?>">
                             <span class="help-block"><?php echo $medicotb->senha_msg;?></span>
                         </div>

@@ -51,10 +51,19 @@ class medicoController {
         
         // Validate name
         if (empty($medicotb->nome)) {
-            $medicotb->nome_msg = "Field is empty.";
+            $medicotb->nome_msg = "Nome vazio.";
             $noerror = false;
-        } elseif (filter_var($medicotb->nome, FILTER_VALIDATE_REGEXP, array("options" =>"/^[a-zA-Z0-9_-\]\[\?\/<~#`!@\$%\^&\*\(\)\+=\}\|:\";\',>\{]{4,20}$/"))) {
-            $medicotb->nome_msg = "Invalid entry.";                                                        
+        } elseif (preg_match("/([%\$#\*@!¨&(\)]+)/", $medicotb->nome)) {
+            $medicotb->nome_msg = "Nome não pode conter símbolos.";                                                        
+            $noerror = false;
+        } elseif (preg_match("/([0-9]+)/", $medicotb->nome)) {
+            $medicotb->nome_msg = "Nome não pode conter números.";                                                        
+            $noerror = false;
+        } elseif (strlen($medicotb->nome) < 3) {
+            $medicotb->nome_msg = "Nome deve conter ao menos 2 dígitos.";                                                        
+            $noerror = false;
+        } elseif (strlen($medicotb->nome) > 40) {
+            $medicotb->nome_msg = "Nome deve conter no máximo 40 dígitos.";                                                        
             $noerror = false;
         } else {
             $medicotb->nome_msg = "";
@@ -95,7 +104,7 @@ class medicoController {
                     }
                 } else {
                     $_SESSION['medicotbl0'] = serialize($medicotb); //add session obj           
-                    $this->pageRedirect("view/insert.php");
+                    $this->pageRedirect("view/cadastroMedico.php");
                 }
             }
         } catch (Exception $e) {
@@ -110,10 +119,15 @@ class medicoController {
 
             if (isset($_POST['updatebtn'])) {
                 $medicotb = unserialize($_SESSION['medicotbl0']);
+                
+                $senha_antiga = trim($_POST['senha_antiga']);
+                //CHECK IF OLD PASSWORD MATCHES.
+                
                 $medicotb->id = trim($_POST['id']);
-                $medicotb->email = trim($_POST['email']);
                 $medicotb->nome = trim($_POST['nome']);
-                $medicotb->senha = trim($_POST['senha']);
+                $medicotb->email = "getOldEmail@gmail.com";
+                $medicotb->senha = trim($_POST['senha_nova']);
+                
                 // check validation  
                 $chk = $this->checkValidation($medicotb);
                 if ($chk) {
@@ -125,7 +139,7 @@ class medicoController {
                     }
                 } else {
                     $_SESSION['medicotbl0'] = serialize($medicotb);
-                    $this->pageRedirect("view/update.php");
+                    $this->pageRedirect("view/editarMedico.php");
                 }
             } elseif (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                 $id = $_GET['id'];
@@ -133,11 +147,9 @@ class medicoController {
                 $row = mysqli_fetch_array($result);
                 $medicotb = new medico();
                 $medicotb->id = $row["id"];
-                $medicotb->email = $row["email"];
                 $medicotb->nome = $row["nome"];
-                //$medicotb->senha = $row["senha"];
                 $_SESSION['medicotbl0'] = serialize($medicotb);
-                $this->pageRedirect('view/update.php');
+                $this->pageRedirect('view/editarMedico.php');
             } else {
                 echo "Invalid operation.";
             }
@@ -169,6 +181,11 @@ class medicoController {
 
     public function list() {
         $result = $this->objsm->selectRecord(0);
+        include "view/list.php";
+    }
+    
+    public function checkPassword() {
+        $result = $this->objsm->selectRecord($id);
         include "view/list.php";
     }
 
