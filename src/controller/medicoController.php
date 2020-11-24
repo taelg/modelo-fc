@@ -21,11 +21,11 @@ class medicoController {
             case 'editar':
                 $this->update();
                 break;
-            case 'horarios' :
-                $this->horarios();
+            case 'schedule' :
+                $this->editSchedule();
                 break;
             default:
-                $this->list();
+                $this->listDoctors();
         }
     }
 
@@ -98,7 +98,7 @@ class medicoController {
                     //call insert record            
                     $pid = $this->objsm->insertRecord($medicotb);
                     if ($pid > 0) {
-                        $this->list();
+                        $this->listDoctors();
                     } else {
                         echo "Somthing is wrong..., try again.";
                     }
@@ -133,7 +133,7 @@ class medicoController {
                 if ($chk) {
                     $res = $this->objsm->updateRecord($medicotb);
                     if ($res) {
-                        $this->list();
+                        $this->listDoctors();
                     } else {
                         echo "Somthing is wrong..., try again.";
                     }
@@ -179,14 +179,24 @@ class medicoController {
         }
     }
 
-    public function list() {
+    public function listDoctors() {
         $medicos = $this->objsm->selectRecord(0);
-        $result = $this->objsm->selectHorarios();
+        $dates = $this->objsm->selectSchedule();
         include "view/listagem.php";
     }
     
-    public function horarios() {
-        
+    public function editSchedule() {
+        try {
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+                //OPEN PAGE OF THIS ID: include "view/horarios.php";
+            } else {
+                echo "Invalid operation.";
+            }
+        } catch (Exception $e) {
+            $this->close_db();
+            throw $e;
+        }
     }
 
 }

@@ -65,39 +65,23 @@
                                         echo "</thead>";
                                         echo "<tbody>";
                                         
-                                        foreach($result as $row2) {
-                                            if($row2['medid'] === $row['id']) {
+                                        foreach($dates as $subRow) {
+                                            if($subRow['medid'] === $row['id']) {
                                                 echo "<tr>";
-                                                    echo "<td>" . $row2['data'] . "</td>";                                   
-                                                    echo "<td>" .($row2['agendado']===0?"Sim":"Não")  . "</td>";
+                                                    echo "<td>" . $subRow['data'] . "</td>";                                   
+                                                    echo "<td>" .($subRow['agendado']===0?"Sim":"Não")  . "</td>";
                                                 echo "</tr>";
                                             }
-                                        }                                        
+                                        }
                                         echo "</tbody>";
                                     echo "</table>";
-                                    
-                                    
                                 }
                                 echo "</tbody>";
                             echo "</table>";
                             
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-
-                            
-                            
-                            
-                            
-                            
-                            
                             // Free result set
-                            mysqli_free_result($result);
                             mysqli_free_result($medicos);
+                            mysqli_free_result($dates);
                         } else{
                             echo "<p class='lead'><em>No records were found.</em></p>";
                         }

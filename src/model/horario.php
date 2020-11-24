@@ -2,7 +2,7 @@
 
 class horario {
 
-    //database fields
+    //campos do banco
     public $id;
     public $id_medico;
     public $data_horario;

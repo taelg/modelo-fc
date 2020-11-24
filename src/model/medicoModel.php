@@ -5,7 +5,7 @@ require_once 'model/config-banco-dados.php';
 
 class medicoModel {
 
-    public function open_db() {
+    public function abrir_conexao_db() {
         $this->condb = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
         if ($this->condb->connect_error) {
             die("Erron in connection: " . $this->condb->connect_error);
@@ -18,7 +18,7 @@ class medicoModel {
 
     public function insertRecord($obj) {
         try {
-            $this->open_db();
+            $this->abrir_conexao_db();
             $query = $this->condb->prepare("INSERT INTO medico (email, nome, senha) VALUES (?, ?, ?)");
             $obj->senha = md5($obj->senha);
             $query->bind_param("sss", $obj->email, $obj->nome, $obj->senha);
@@ -36,7 +36,7 @@ class medicoModel {
 
     public function updateRecord($obj) {
         try {
-            $this->open_db();
+            $this->abrir_conexao_db();
             $query = $this->condb->prepare("UPDATE medico SET email=?, nome=?, senha=? WHERE id=?");
             $obj->senha = md5($obj->senha);
             $query->bind_param("sssi", $obj->email, $obj->nome, $obj->senha, $obj->id);
@@ -53,7 +53,7 @@ class medicoModel {
 
     public function deleteRecord($id) {
         try {
-            $this->open_db();
+            $this->abrir_conexao_db();
             $query = $this->condb->prepare("DELETE FROM medico WHERE id=?");
             $query->bind_param("i", $id);
             $query->execute();
@@ -69,7 +69,7 @@ class medicoModel {
 
     public function selectRecord($id) {
         try {
-            $this->open_db();
+            $this->abrir_conexao_db();
             if ($id > 0) {
                 $query = $this->condb->prepare("SELECT * FROM medico WHERE id=?");
                 $query->bind_param("i", $id);
@@ -87,9 +87,9 @@ class medicoModel {
         }
     }
     
-    public function selectHorarios() {
+    public function selectSchedule() {
         try {
-            $this->open_db();
+            $this->abrir_conexao_db();
             $query = $this->condb->prepare("SELECT medico.id AS medid, medico.nome AS medico, horario.data_horario AS data, horario.horario_agendado AS agendado FROM medico INNER JOIN horario ON medico.id = horario.id_medico ORDER BY medico.id");
             $query->execute();
             $res = $query->get_result();

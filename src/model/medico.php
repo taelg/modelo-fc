@@ -2,7 +2,7 @@
 
 class medico {
 
-    //database fields
+    //campos do banco
     public $id;
     public $email;
     public $nome;
