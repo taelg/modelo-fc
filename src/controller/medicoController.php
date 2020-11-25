@@ -99,25 +99,32 @@ class medicoController {
                 $medicotb = unserialize($_SESSION['medicotbl0']);
 
                 $senha_antiga = trim($_POST['senha_antiga']);
-                //CHECK IF OLD PASSWORD MATCHES.
+                $medico = mysqli_fetch_array($this->objsm->selectRecord(trim($_POST['id'])));
 
                 $medicotb->id = trim($_POST['id']);
                 $medicotb->nome = trim($_POST['nome']);
-                $medicotb->email = "getOldEmail@gmail.com";
-                $medicotb->senha = trim($_POST['senha_nova']);
+                $medicotb->email = $medico['email'];
 
-                // check validation  
-                $chk = $this->checkValidation($medicotb);
-                if ($chk) {
-                    $res = $this->objsm->updateRecord($medicotb);
-                    if ($res) {
-                        $this->listDoctors();
-                    } else {
-                        echo "Somthing is wrong..., try again.";
-                    }
-                } else {
+                if ($medico['senha'] !== md5($senha_antiga)) {
+                    $medicotb->senha_msg = "Sua senha antiga está incorreta.";
                     $_SESSION['medicotbl0'] = serialize($medicotb);
                     $this->pageRedirect("view/editarMedico.php");
+                } else {
+                    $medicotb->senha = trim($_POST['senha_nova']);
+
+                    // check validation  
+                    $chk = $this->checkValidation($medicotb);
+                    if ($chk) {
+                        $res = $this->objsm->updateRecord($medicotb);
+                        if ($res) {
+                            $this->listDoctors();
+                        } else {
+                            echo "Somthing is wrong..., try again.";
+                        }
+                    } else {
+                        $_SESSION['medicotbl0'] = serialize($medicotb);
+                        $this->pageRedirect("view/editarMedico.php");
+                    }
                 }
             } elseif (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
                 $id = $_GET['id'];
