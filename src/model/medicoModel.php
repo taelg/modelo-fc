@@ -90,7 +90,7 @@ class medicoModel {
     public function selectSchedule() {
         try {
             $this->abrir_conexao_db();
-            $query = $this->condb->prepare("SELECT medico.id AS medid, medico.nome AS medico, horario.data_horario AS data, horario.horario_agendado AS agendado FROM medico INNER JOIN horario ON medico.id = horario.id_medico ORDER BY medico.id");
+            $query = $this->condb->prepare("SELECT horario.id AS horid, medico.id AS medid, medico.nome AS medico, horario.data_horario AS data, horario.horario_agendado AS agendado FROM medico INNER JOIN horario ON medico.id = horario.id_medico ORDER BY medico.id");
             $query->execute();
             $res = $query->get_result();
             $query->close();

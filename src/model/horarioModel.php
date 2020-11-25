@@ -85,4 +85,24 @@ class horarioModel {
         }
     }
 
+    public function switchAvaliability($id) {
+
+        if ($id > 0) {
+            $res = mysqli_fetch_array($this->selectRecord($id));           
+            $horario = new horario();
+            $horario->id = $res['id'];
+            $horario->id_medico = $res['id_medico'];
+            $horario->data_horario = $res['data_horario'];
+            $horario->horario_agendado = $res['horario_agendado'];
+
+            if ($horario->horario_agendado === 0) {
+                $horario->horario_agendado = 1;
+            } else {
+                $horario->horario_agendado = 0;
+            }
+            
+            $this->updateRecord($horario);
+        }
+    }
+
 }

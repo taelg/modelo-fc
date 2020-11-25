@@ -18,8 +18,7 @@ $medicotb = isset($_SESSION['medicotbl0']) ? unserialize($_SESSION['medicotbl0']
         <link rel="stylesheet" href="../model/css/style.css">
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Signika">
     </head>
-
-
+    
     <body>
         <nav class="navbar navbar-dark fc-color-bg-light-blue">
             <a></a>

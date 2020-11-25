@@ -21,7 +21,7 @@ class horarioController {
     // check validation
     public function checkValidation($horariotb) {
         $noerror = true;
-        
+
         // Validate data/hora
         if (empty($horariotb->data_horario)) {
             $horariotb->data_horario_msg = "Field is empty.";
@@ -32,11 +32,10 @@ class horarioController {
         } else {
             $horariotb->data_horario_msg = "";
         }
-        
+
         return $noerror;
     }
 
-    
     public function insert() {
         try {
             $horariotb = new medico();
@@ -129,6 +128,17 @@ class horarioController {
     public function list() {
         $result = $this->objsm->selectRecord(0);
         include "view/list.php";
+    }
+
+    public function schedule() {
+
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $result = $this->objsm->switchAvaliability($id);
+            $this->pageRedirect("index.php");
+        } else {
+            echo "Algo deu errado ao marcar/desmarcar o horário.";
+        }
     }
 
 }

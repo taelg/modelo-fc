@@ -22,7 +22,7 @@
                 break;
             
             case 'registrarHorario' :
-                $horarioController->insert();
+                $horarioController->schedule();
                 break;
             case 'editarHorarios' :
                 $horarioController->update();
