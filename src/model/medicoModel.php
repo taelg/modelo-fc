@@ -86,11 +86,16 @@ class medicoModel {
             throw $e;
         }
     }
-    
-    public function selectSchedule() {
+
+    public function selectSchedule($id) {
+
+        $queryTxt = "SELECT horario.id AS horid, medico.id AS medid, medico.nome AS medico, horario.data_horario AS data, horario.horario_agendado AS agendado FROM medico INNER JOIN horario ON medico.id = horario.id_medico ORDER BY medico.id";
+        if ($id !== 0) {
+            $queryTxt = "SELECT horario.id AS id, horario.data_horario AS data, horario.horario_agendado AS agendado FROM medico INNER JOIN horario ON medico.id = horario.id_medico WHERE medico.id = " . $id;
+        }
         try {
             $this->abrir_conexao_db();
-            $query = $this->condb->prepare("SELECT horario.id AS horid, medico.id AS medid, medico.nome AS medico, horario.data_horario AS data, horario.horario_agendado AS agendado FROM medico INNER JOIN horario ON medico.id = horario.id_medico ORDER BY medico.id");
+            $query = $this->condb->prepare($queryTxt);
             $query->execute();
             $res = $query->get_result();
             $query->close();

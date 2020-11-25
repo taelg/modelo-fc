@@ -20,13 +20,25 @@ $medicotb = isset($_SESSION['medicotbl0']) ? unserialize($_SESSION['medicotbl0']
     </head>
 
     <body>
-        <div class="container" style="width: 500px;">
+
+        <nav class="navbar navbar-dark fc-color-bg-light-blue">
+            <a></a>
+            <a></a>
+            <a></a>
+            <div class="d-flex justify-content-center" style="width: 250px; height: 70px;">
+                <div class="badge bg-light d-flex justify-content-center" style="width: 200px; height: 48px; align-self: center;">
+                    <p class="fc-color-fg-light-blue text-center" style="width: 200px; height: 7px; align-self: center; font-size: 18px;">Editar médico</p>
+                </div>
+            </div>
+            <a></a>
+        </nav>
+
+
+        <div class="container mt-3" style="width: 500px;">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="page-header">
-                            <h2>Editar Médico</h2>
-                        </div>
+
                         <form action="../index.php?act=editarMedico" method="post" >
 
 

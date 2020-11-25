@@ -159,19 +159,17 @@ class medicoController {
 
     public function listDoctors() {
         $medicos = $this->objsm->selectRecord(0);
-        $dates = $this->objsm->selectSchedule();
+        $dates = $this->objsm->selectSchedule(0);
         include "view/listagem.php";
-    }
-
-    public function scheduleDate() {
-        
     }
 
     public function editSchedule() {
         try {
             if (isset($_GET['id'])) {
                 $id = $_GET['id'];
-                //OPEN PAGE OF THIS ID: include "view/horarios.php";
+                $medicos = $this->objsm->selectRecord($id);
+                $dates = $this->objsm->selectSchedule($id);
+                include "view/editarHorarios.php";
             } else {
                 echo "Invalid operation.";
             }

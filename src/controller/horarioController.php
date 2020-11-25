@@ -1,7 +1,5 @@
 <?php
 
-//require_once 'model/medicoModel.php';
-//require_once 'model/medico.php';
 require_once 'model/horarioModel.php';
 require_once 'model/horario.php';
 
@@ -131,13 +129,17 @@ class horarioController {
     }
 
     public function schedule() {
-
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
-            $result = $this->objsm->switchAvaliability($id);
-            $this->pageRedirect("index.php");
-        } else {
-            echo "Algo deu errado ao marcar/desmarcar o horário.";
+        try {
+            if (isset($_GET['id'])) {
+                $id = $_GET['id'];
+                $result = $this->objsm->switchAvaliability($id);
+                $this->pageRedirect("index.php");
+            } else {
+                echo "Invalid operation.";
+            }
+        } catch (Exception $e) {
+            $this->close_db();
+            throw $e;
         }
     }
 
