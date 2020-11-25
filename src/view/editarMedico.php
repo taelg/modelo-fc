@@ -24,7 +24,7 @@
                     <div class="page-header">
                         <h2>Editar Médico</h2>
                     </div>
-                    <form action="../index.php?act=update" method="post" >
+                    <form action="../index.php?act=editarMedico" method="post" >
 
                         
                         <div class="form-group <?php echo (!empty($medicotb->nome_msg)) ? 'has-error' : ''; ?>">

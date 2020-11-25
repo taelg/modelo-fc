@@ -22,10 +22,10 @@ class medicoController {
 
         // Validate email
         if (empty($medicotb->email)) {
-            $medicotb->email_msg = "Field is empty.";
+            $medicotb->email_msg = "O email não pode ser vazio.";
             $noerror = false;
         } elseif (!filter_var($medicotb->email, FILTER_VALIDATE_EMAIL)) {
-            $medicotb->category_msg = "Invalid entry.";
+            $medicotb->category_msg = "O email não é valido.";
             $noerror = false;
         } else {
             $medicotb->category_msg = "";
@@ -33,19 +33,19 @@ class medicoController {
 
         // Validate name
         if (empty($medicotb->nome)) {
-            $medicotb->nome_msg = "Nome vazio.";
+            $medicotb->nome_msg = "O nome não pode ser vazio.";
             $noerror = false;
         } elseif (preg_match("/([%\$#\*@!¨&(\)]+)/", $medicotb->nome)) {
-            $medicotb->nome_msg = "Nome não pode conter símbolos.";
+            $medicotb->nome_msg = "O nome não pode conter símbolos.";
             $noerror = false;
         } elseif (preg_match("/([0-9]+)/", $medicotb->nome)) {
-            $medicotb->nome_msg = "Nome não pode conter números.";
+            $medicotb->nome_msg = "O nome não pode conter números.";
             $noerror = false;
         } elseif (strlen($medicotb->nome) < 5) {
-            $medicotb->nome_msg = "Nome deve conter ao menos 6 dígitos.";
+            $medicotb->nome_msg = "O nome deve conter ao menos 6 dígitos.";
             $noerror = false;
         } elseif (strlen($medicotb->nome) > 40) {
-            $medicotb->nome_msg = "Nome deve conter no máximo 40 dígitos.";
+            $medicotb->nome_msg = "O nome deve conter no máximo 40 dígitos.";
             $noerror = false;
         } else {
             $medicotb->nome_msg = "";
@@ -53,7 +53,7 @@ class medicoController {
 
         //Validate senha
         if (strlen($medicotb->senha) < 5) {
-            $medicotb->senha_msg = "Senha deve conter ao menos 6 dígitos.";
+            $medicotb->senha_msg = "A senha deve conter ao menos 6 dígitos.";
             $noerror = false;
         } else {
             $medicotb->senha_msg = "";

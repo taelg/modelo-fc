@@ -1,0 +1,15 @@
+body {background-color: #efefef;}
+h1 { font-family: Signika; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px; } h3 { font-family: Signika; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 15.4px; } p { font-family: Signika; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 20px; } blockquote { font-family: Signika; font-size: 21px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 30px; } pre { font-family: Signika; font-size: 13px; font-style: normal; font-variant: normal; font-weight: 400; line-height: 18.5714px; }
+
+html *
+{
+   font-family: Signika;
+}
+
+.fc-color-bg-light-blue {background-color: #0094cf;}
+.fc-color-bg-white { background-color: #ffffff; }
+.fc-color-bg-gray {background-color: #737373; }
+
+.fc-color-fg-light-blue {color: #0094cf; }
+.fc-color-fg-dark-blue {color: #004768; }
+.fc-color-fg-white { color: #ffffff; }
