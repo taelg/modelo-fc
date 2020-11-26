@@ -22,10 +22,7 @@ class horarioController {
 
         // Validate data/hora
         if (empty($horariotb->data_horario)) {
-            $horariotb->data_horario_msg = "Field is empty.";
-            $noerror = false;
-        } elseif (DateTime::createFromFormat('Y-m-d H:i:s', $horariotb->data_horario) === false) {
-            $horariotb->data_horario_msg = "Invalid entry.";
+            $horariotb->data_horario_msg = "Selecione um horário válido.";
             $noerror = false;
         } else {
             $horariotb->data_horario_msg = "";
@@ -36,24 +33,32 @@ class horarioController {
 
     public function insert() {
         try {
-            $horariotb = new medico();
-            if (isset($_POST['addbtn'])) {
-                // read form value
-                $horariotb->id_medico = trim($_POST['id_medico']);
+            $horariotb = new horario();
+            $medicotb = new medico();
+
+            if (isset($_POST['addHorario'])) {
+                $horariotb = unserialize($_SESSION['horariotb10']);
+                $medicotb = unserialize($_SESSION['medicotb10']);
+
+                $medicotb->id = trim($_POST['id_medico']);
+                $medicotb->nome = trim($_POST['nome_medico']);
+                $horariotb->id_medico = $medicotb->id;
                 $horariotb->data_horario = trim($_POST['data_horario']);
+
                 //call validation
                 $chk = $this->checkValidation($horariotb);
                 if ($chk) {
                     //call insert record            
                     $pid = $this->objsm->insertRecord($horariotb);
                     if ($pid > 0) {
-                        $this->list();
+                        $this->pageRedirect('index.php?act=editarHorarios&id=' . $medicotb->id);
                     } else {
                         echo "Somthing is wrong..., try again.";
                     }
                 } else {
-                    $_SESSION['horariotbl0'] = serialize($horariotb); //add session obj           
-                    $this->pageRedirect("view/insert.php");
+                    $_SESSION['horariotbl0'] = serialize($horariotb);
+                    $_SESSION['medicotbl0'] = serialize($medicotb);
+                    $this->pageRedirect('index.php?act=editarHorarios&id=' . $medicotb->id);
                 }
             }
         } catch (Exception $e) {
@@ -108,9 +113,10 @@ class horarioController {
         try {
             if (isset($_GET['id'])) {
                 $id = $_GET['id'];
+                $id_medico = $_GET['id_medico'];
                 $res = $this->objsm->deleteRecord($id);
                 if ($res) {
-                    $this->pageRedirect('index.php');
+                    $this->pageRedirect('index.php?act=editarHorarios&id=' . $id_medico);
                 } else {
                     echo "Somthing is wrong..., try again.";
                 }

@@ -1,7 +1,9 @@
 <?php
 
 require_once 'model/medicoModel.php';
+require_once 'model/horarioModel.php';
 require_once 'model/medico.php';
+require_once 'model/horario.php';
 
 session_status() === PHP_SESSION_ACTIVE ? TRUE : session_start();
 
@@ -170,13 +172,43 @@ class medicoController {
         include "view/listagem.php";
     }
 
-    public function editSchedule() {
+    public function editSchedule2() {
         try {
             if (isset($_GET['id'])) {
                 $id = $_GET['id'];
                 $medicos = $this->objsm->selectRecord($id);
                 $dates = $this->objsm->selectSchedule($id);
                 include "view/editarHorarios.php";
+            } else {
+                echo "Invalid operation.";
+            }
+        } catch (Exception $e) {
+            $this->close_db();
+            throw $e;
+        }
+    }
+
+    public function editSchedule() {
+        try {
+            if (isset($_GET["id"]) && !empty(trim($_GET["id"]))) {
+                $id = $_GET['id'];
+                $result = $this->objsm->selectRecord($id);
+                $row = mysqli_fetch_array($result);
+                $medicotb = new medico();
+                $horariotb = new horario();
+                $medicotb->id = $row["id"];
+                $medicotb->nome = $row["nome"];
+
+                $dateArr = array();
+                $dates = $this->objsm->selectSchedule($medicotb->id);
+                while ($row = mysqli_fetch_array($dates)) {
+                    $dateArr[] = $row;
+                }
+
+                $_SESSION['medicotb10'] = serialize($medicotb);
+                $_SESSION['horariotb10'] = serialize($horariotb);
+                $_SESSION['datestb10'] = serialize($dateArr);
+                $this->pageRedirect('view/editarHorarios.php');
             } else {
                 echo "Invalid operation.";
             }

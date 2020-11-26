@@ -1,4 +1,11 @@
-<?php session_unset(); ?>
+<?php
+require_once '../model/horario.php';
+require_once '../model/medico.php';
+session_start();
+$medicotb = isset($_SESSION['medicotb10']) ? unserialize($_SESSION['medicotb10']) : new medico();
+$horariotb = isset($_SESSION['horariotbl0']) ? unserialize($_SESSION['horariotbl0']) : new horario();
+$dates = isset($_SESSION['datestb10']) ? unserialize($_SESSION['datestb10']) : null;
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +22,7 @@
         <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Signika">
     </head>
 
-    <body>        
+    <body>
         <nav class="navbar navbar-dark fc-color-bg-light-blue">
             <a></a>
             <a></a>
@@ -30,29 +37,31 @@
 
         <div class="d-flex justify-content-start mt-5">
 
-            <?php $medico = mysqli_fetch_array($medicos); ?>
             <div class="container border" style="width: 400px;">
                 <h2>Adicionar horários</h2>
-                <form action="../index.php?act=registrarMedico" method="post">
+                <form action="../index.php?act=registrarHorario" method="post">
 
                     <div class="form-group my-4">
-                        <label class="fc-color-fg-dark-blue my-n3" for="nome">nome:</label>
-                        <?php echo "<h3>" . $medico['nome'] . "</h3>" ?>
+                        <label class="fc-color-fg-dark-blue my-n3" for="nome">nome: </label>
+                        <label><?php echo $medicotb->nome; ?> </label>
+                        <input type='hidden' name='nome_medico' value='<?php echo $medicotb->nome; ?>'>
+                        <input type='hidden' name='id_medico' value='<?php echo $medicotb->id; ?>'>
                     </div>
+
 
                     <div class="form-group my-4">
                         <label class="fc-color-fg-dark-blue my-n3"  for="datetime">data e hora</label>
-                        <input type="datetime-local" name="horario" min="2020-01-01" max="2021-12-31">
+                        <input type="datetime-local" name="data_horario" value="<?php echo $horariotb->data_horario; ?>" min="2020-01-01" max="2021-12-31">
                     </div>
 
                     <div class="form-group my-4">
                         <div class="container col-md-auto mt-5 form-group" style="width: 250px;">
-                            <button type="submit" name="addhorario" class="btn fc-color-bg-light-blue fc-color-fg-white" value="Adicionar horário" style="width: 220px; height: 54px; font-size: 20px;">Adicionar horário</button>
+                            <button type="submit" name="addHorario" class="btn fc-color-bg-light-blue fc-color-fg-white" value="Adicionar horário" style="width: 220px; height: 54px; font-size: 20px;">Adicionar horário</button>
                         </div>
                     </div>
 
                     <div class="container mt-n2 col-md-auto form-group fc-color-fg-light-blue" style="width: 201px;">
-                        <a href="index.php" style="font-size: 15px;"> Voltar para a página inicial </a>
+                        <a href="../index.php" style="font-size: 15px;"> Voltar para a página inicial </a>
                     </div>
                 </form>
             </div>
@@ -68,19 +77,12 @@
                     </thead>
                     <tbody>                
                         <?php
-                        if ($dates->num_rows > 0) {
-                            while ($row = mysqli_fetch_array($dates)) {
-                                echo "<tr>";
-                                echo "<td><a>" . $row['data'] . "</a></td>";
-                                echo "<td>" . ($row['agendado'] === 0 ? "Excluir" : "") . "</td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<p class='lead'><em>No records were found.</em></p>";
+                        foreach ($dates as $row) {
+                            echo "<tr>";
+                            echo "<td><a>" . $row['data'] . "</a></td>";
+                            echo "<td><a href='../index.php?act=deletarHorario&id=" . $row['id'] . "&id_medico=" . $medicotb->id . "'>" . ($row['agendado'] === 0 ? "Excluir" : "") . "</a></td>";
+                            echo "</tr>";
                         }
-                        // Free result set
-                        mysqli_free_result($medicos);
-                        mysqli_free_result($dates);
                         ?>
                     </tbody>
                 </table>

@@ -31,6 +31,12 @@ switch ($act) {
     case 'marcarHorario' :
         $horarioController->schedule();
         break;
+    case 'registrarHorario' :
+        $horarioController->insert();
+        break;
+    case 'deletarHorario' :
+        $horarioController->delete();
+        break;
 
     default:
         $medicoController->listDoctors();

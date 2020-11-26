@@ -20,7 +20,7 @@ class horarioModel {
         try {
             $this->open_db();
             $query = $this->condb->prepare("INSERT INTO horario (id_medico, data_horario) VALUES (?, ?)");
-            $query->bind_param("iss", $obj->id_medico, $obj->data_horario);
+            $query->bind_param("is", $obj->id_medico, $obj->data_horario);
             $query->execute();
             $res = $query->get_result();
             $last_id = $this->condb->insert_id;
