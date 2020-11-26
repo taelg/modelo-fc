@@ -74,7 +74,7 @@ class medicoModel {
                 $query = $this->condb->prepare("SELECT * FROM medico WHERE id=?");
                 $query->bind_param("i", $id);
             } else {
-                $query = $this->condb->prepare("SELECT medico.id AS id, medico.nome AS nome FROM medico INNER JOIN horario ON medico.id = horario.id_medico GROUP BY medico.id ORDER BY horario.horario_agendado, horario.data_horario;");
+                $query = $this->condb->prepare("SELECT medico.id AS id, medico.nome AS nome FROM medico LEFT JOIN horario ON medico.id = horario.id_medico GROUP BY medico.id ORDER BY horario.horario_agendado, horario.data_horario;");
             }
             $query->execute();
             $res = $query->get_result();
@@ -108,3 +108,4 @@ class medicoModel {
     }
 
 }
+
